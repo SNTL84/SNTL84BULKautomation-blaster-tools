@@ -1,4 +1,4 @@
-# 🚀 SNTL84 BULK Automation Blaster Tools
+# 🚀 SNTL84 BULK Automation Blaster Tools ⚡
 
 > **WhatsApp & Aratt.ai Bulk Outreach Automation Tools**  
 > Built by **Milan SNTL 84** — AI Workflow Professional, Surat, India
