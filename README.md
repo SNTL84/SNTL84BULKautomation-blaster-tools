@@ -74,3 +74,18 @@ AI Workflow Professional | Full-Stack Developer | Surat, India
 ## 📄 License
 
 This project is licensed under the [MIT License](LICENSE).
+
+
+---
+
+## 📅 Changelog
+
+### v1.1 - April 2026
+- Added Aratt.ai Blaster tool
+- Improved number validation logic
+- Enhanced progress tracking UI
+
+### v1.0 - April 2026
+- Initial release of WA Blaster tool
+- Bulk number import with live preview
+- Campaign progress tracker
