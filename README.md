@@ -89,3 +89,6 @@ This project is licensed under the [MIT License](LICENSE).
 - Initial release of WA Blaster tool
 - Bulk number import with live preview
 - Campaign progress tracker
+
+
+> **Pair Programming Note:** This project was built with collaboration from the SNTL84 team.
