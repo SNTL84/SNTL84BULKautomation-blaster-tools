@@ -1,1 +1,716 @@
-PLACEHOLDER_AR
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aratt.ai Blaster — SNTL 84</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #07080b;
+    --surface: #0d0f14;
+    --surface2: #141720;
+    --border: #1a1f2e;
+    --border2: #222840;
+    --accent: #6c63ff;
+    --accent2: #4f46e5;
+    --accent-dim: rgba(108,99,255,0.08);
+    --accent-glow: rgba(108,99,255,0.2);
+    --text: #e2e8f4;
+    --text2: #7b8db0;
+    --text3: #3d4d6a;
+    --red: #ff4757;
+    --yellow: #fbbf24;
+    --green: #34d399;
+    --blue: #60a5fa;
+    --radius: 10px;
+    --radius-sm: 6px;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { height:100%; background:var(--bg); color:var(--text); font-family:'JetBrains Mono',monospace; font-size:13px; }
+
+  /* ── LAYOUT ── */
+  .shell { display:grid; grid-template-columns:320px 1fr; grid-template-rows:56px 1fr; height:100vh; }
+
+  /* ── TOPBAR ── */
+  .topbar {
+    grid-column:1/-1;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:0 20px;
+    border-bottom:1px solid var(--border);
+    background:var(--surface);
+    gap:12px;
+  }
+  .topbar-brand { display:flex; align-items:center; gap:10px; }
+  .topbar-brand .logo {
+    width:30px; height:30px; border-radius:8px;
+    background:linear-gradient(135deg,var(--accent),var(--accent2));
+    display:flex; align-items:center; justify-content:center;
+    font-size:15px;
+  }
+  .topbar-brand .brand-name { font-family:'Syne',sans-serif; font-weight:800; font-size:14px; letter-spacing:.5px; }
+  .topbar-brand .brand-name span { color:var(--accent); }
+  .topbar-meta { display:flex; align-items:center; gap:16px; }
+  .badge {
+    display:flex; align-items:center; gap:6px;
+    padding:4px 10px; border-radius:20px;
+    background:var(--surface2); border:1px solid var(--border2);
+    font-size:11px; color:var(--text2);
+  }
+  .badge .dot { width:6px; height:6px; border-radius:50%; background:var(--accent); animation:pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+
+  /* ── LEFT PANEL ── */
+  .left-panel {
+    border-right:1px solid var(--border);
+    background:var(--surface);
+    display:flex; flex-direction:column;
+    overflow:hidden;
+  }
+  .panel-header {
+    padding:14px 16px 10px;
+    border-bottom:1px solid var(--border);
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .panel-title { font-size:11px; color:var(--text2); text-transform:uppercase; letter-spacing:1px; }
+  .count-chip {
+    font-size:11px; padding:2px 8px; border-radius:10px;
+    background:var(--accent-dim); border:1px solid rgba(108,99,255,.2);
+    color:var(--accent);
+  }
+
+  /* search */
+  .search-wrap { padding:10px 12px; border-bottom:1px solid var(--border); }
+  .search-box {
+    width:100%; padding:7px 10px 7px 30px;
+    background:var(--surface2); border:1px solid var(--border2);
+    border-radius:var(--radius-sm); color:var(--text); font-family:inherit; font-size:12px;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%237b8db0' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E");
+    background-repeat:no-repeat; background-position:9px center;
+    outline:none; transition:border-color .2s;
+  }
+  .search-box:focus { border-color:var(--accent); }
+
+  /* bulk actions */
+  .bulk-bar {
+    padding:8px 12px; border-bottom:1px solid var(--border);
+    display:flex; gap:6px; align-items:center;
+  }
+  .btn-sm {
+    padding:4px 10px; border-radius:var(--radius-sm);
+    font-family:inherit; font-size:11px; cursor:pointer;
+    border:1px solid var(--border2); background:var(--surface2); color:var(--text2);
+    transition:all .15s;
+  }
+  .btn-sm:hover { border-color:var(--accent); color:var(--accent); }
+  .btn-sm.danger:hover { border-color:var(--red); color:var(--red); }
+
+  /* contact list */
+  .contact-list { flex:1; overflow-y:auto; padding:6px; }
+  .contact-list::-webkit-scrollbar { width:4px; }
+  .contact-list::-webkit-scrollbar-track { background:transparent; }
+  .contact-list::-webkit-scrollbar-thumb { background:var(--border2); border-radius:2px; }
+
+  .contact-item {
+    display:flex; align-items:center; gap:10px;
+    padding:8px 10px; border-radius:var(--radius-sm);
+    cursor:pointer; border:1px solid transparent;
+    transition:all .15s; margin-bottom:2px;
+    user-select:none;
+  }
+  .contact-item:hover { background:var(--surface2); border-color:var(--border2); }
+  .contact-item.selected { background:var(--accent-dim); border-color:rgba(108,99,255,.25); }
+  .contact-item.sent { opacity:.55; }
+  .contact-item.failed { border-color:rgba(255,71,87,.2); background:rgba(255,71,87,.05); }
+
+  .cb { width:14px; height:14px; border-radius:3px; border:1px solid var(--border2); background:var(--surface2); flex-shrink:0; display:flex; align-items:center; justify-content:center; }
+  .selected .cb { background:var(--accent); border-color:var(--accent); }
+  .selected .cb::after { content:'✓'; font-size:9px; color:#fff; font-weight:700; }
+
+  .avatar {
+    width:32px; height:32px; border-radius:50%; flex-shrink:0;
+    background:linear-gradient(135deg,#13162a,#1e2240);
+    display:flex; align-items:center; justify-content:center;
+    font-size:12px; font-weight:700; color:var(--text2);
+    border:1px solid var(--border2);
+  }
+  .selected .avatar { border-color:var(--accent); color:var(--accent); }
+
+  .contact-info { flex:1; min-width:0; }
+  .contact-name { font-size:12px; font-weight:500; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .contact-num { font-size:10px; color:var(--text3); margin-top:1px; }
+
+  .status-icon { font-size:13px; flex-shrink:0; }
+
+  /* add contact */
+  .add-contact-wrap { padding:10px 12px; border-top:1px solid var(--border); }
+  .add-row { display:flex; gap:6px; }
+  .inp {
+    flex:1; padding:6px 10px;
+    background:var(--surface2); border:1px solid var(--border2);
+    border-radius:var(--radius-sm); color:var(--text); font-family:inherit; font-size:12px;
+    outline:none; transition:border-color .2s;
+  }
+  .inp:focus { border-color:var(--accent); }
+  .inp::placeholder { color:var(--text3); }
+  .btn-add {
+    padding:6px 12px; border-radius:var(--radius-sm);
+    background:var(--accent); border:none; color:#fff;
+    font-family:inherit; font-size:11px; font-weight:700;
+    cursor:pointer; transition:background .15s; white-space:nowrap;
+  }
+  .btn-add:hover { background:var(--accent2); }
+
+  /* ── RIGHT PANEL ── */
+  .right-panel { display:flex; flex-direction:column; overflow:hidden; }
+
+  /* compose */
+  .compose-section {
+    padding:16px 20px 14px;
+    border-bottom:1px solid var(--border);
+    background:var(--surface);
+  }
+  .compose-label {
+    font-size:10px; color:var(--text2); text-transform:uppercase;
+    letter-spacing:1px; margin-bottom:8px;
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .char-counter { font-size:10px; color:var(--text3); }
+  .char-counter.warn { color:var(--yellow); }
+  .char-counter.over { color:var(--red); }
+  .msg-textarea {
+    width:100%; min-height:90px; max-height:160px;
+    padding:10px 12px;
+    background:var(--surface2); border:1px solid var(--border2);
+    border-radius:var(--radius); color:var(--text); font-family:inherit; font-size:12px;
+    line-height:1.6; resize:vertical; outline:none;
+    transition:border-color .2s;
+  }
+  .msg-textarea:focus { border-color:var(--accent); }
+
+  .compose-actions { display:flex; gap:8px; margin-top:10px; align-items:center; flex-wrap:wrap; }
+  .btn-primary {
+    padding:8px 20px; border-radius:var(--radius-sm);
+    background:linear-gradient(135deg,var(--accent),var(--accent2));
+    border:none; color:#fff; font-family:inherit; font-size:12px; font-weight:700;
+    cursor:pointer; display:flex; align-items:center; gap:6px;
+    transition:opacity .15s; box-shadow:0 0 20px var(--accent-glow);
+  }
+  .btn-primary:hover { opacity:.9; }
+  .btn-primary:disabled { opacity:.4; cursor:not-allowed; box-shadow:none; }
+
+  .btn-secondary {
+    padding:8px 14px; border-radius:var(--radius-sm);
+    background:transparent; border:1px solid var(--border2);
+    color:var(--text2); font-family:inherit; font-size:12px;
+    cursor:pointer; transition:all .15s;
+  }
+  .btn-secondary:hover { border-color:var(--text2); color:var(--text); }
+
+  .send-info { font-size:11px; color:var(--text3); margin-left:auto; }
+
+  /* progress */
+  .progress-wrap { padding:10px 20px; border-bottom:1px solid var(--border); background:var(--surface); }
+  .progress-label { display:flex; justify-content:space-between; font-size:10px; color:var(--text3); margin-bottom:5px; }
+  .progress-bar { height:3px; background:var(--border2); border-radius:2px; overflow:hidden; }
+  .progress-fill { height:100%; background:linear-gradient(90deg,var(--accent),var(--accent2)); border-radius:2px; transition:width .4s ease; }
+
+  /* stats */
+  .stats-row {
+    display:grid; grid-template-columns:repeat(4,1fr);
+    gap:1px; background:var(--border);
+    border-bottom:1px solid var(--border);
+  }
+  .stat-cell {
+    padding:10px 16px; background:var(--surface);
+    display:flex; flex-direction:column; gap:2px;
+  }
+  .stat-val { font-size:18px; font-weight:700; font-family:'Syne',sans-serif; }
+  .stat-lbl { font-size:10px; color:var(--text3); text-transform:uppercase; letter-spacing:.5px; }
+  .stat-val.green { color:var(--green); }
+  .stat-val.red { color:var(--red); }
+  .stat-val.yellow { color:var(--yellow); }
+  .stat-val.blue { color:var(--blue); }
+
+  /* log */
+  .log-section { flex:1; display:flex; flex-direction:column; overflow:hidden; }
+  .log-header {
+    padding:10px 20px 8px;
+    border-bottom:1px solid var(--border);
+    display:flex; align-items:center; justify-content:space-between;
+    background:var(--surface);
+  }
+  .log-title { font-size:10px; color:var(--text2); text-transform:uppercase; letter-spacing:1px; display:flex; align-items:center; gap:6px; }
+  .log-dot { width:6px; height:6px; border-radius:50%; background:var(--accent); animation:pulse 2s infinite; }
+  .log-body { flex:1; overflow-y:auto; padding:10px 20px; font-size:11px; line-height:1.8; }
+  .log-body::-webkit-scrollbar { width:4px; }
+  .log-body::-webkit-scrollbar-track { background:transparent; }
+  .log-body::-webkit-scrollbar-thumb { background:var(--border2); border-radius:2px; }
+
+  .log-entry { margin-bottom:2px; }
+  .log-ts { color:var(--text3); }
+  .log-ok { color:var(--green); }
+  .log-err { color:var(--red); }
+  .log-info { color:var(--blue); }
+  .log-warn { color:var(--yellow); }
+
+  /* how-it-works */
+  .how-section {
+    padding:12px 20px;
+    border-top:1px solid var(--border);
+    background:var(--surface);
+    display:flex; gap:24px; flex-wrap:wrap; align-items:flex-start;
+  }
+  .how-title { font-size:10px; color:var(--text2); text-transform:uppercase; letter-spacing:1px; margin-bottom:6px; }
+  .how-steps { display:flex; flex-direction:column; gap:3px; }
+  .how-step { font-size:10px; color:var(--text3); display:flex; gap:6px; }
+  .how-step span:first-child { color:var(--accent); flex-shrink:0; }
+  .how-note {
+    margin-top:4px; padding:6px 10px; border-radius:var(--radius-sm);
+    background:var(--accent-dim); border:1px solid rgba(108,99,255,.15);
+    font-size:10px; color:var(--accent);
+  }
+
+  /* username input */
+  .username-section {
+    padding:10px 20px;
+    border-bottom:1px solid var(--border);
+    background:var(--surface);
+    display:flex; align-items:center; gap:10px;
+  }
+  .username-label { font-size:10px; color:var(--text2); text-transform:uppercase; letter-spacing:1px; white-space:nowrap; }
+  .username-inp {
+    flex:1; max-width:280px; padding:6px 10px;
+    background:var(--surface2); border:1px solid var(--border2);
+    border-radius:var(--radius-sm); color:var(--text); font-family:inherit; font-size:12px;
+    outline:none; transition:border-color .2s;
+  }
+  .username-inp:focus { border-color:var(--accent); }
+  .username-inp::placeholder { color:var(--text3); }
+  .username-hint { font-size:10px; color:var(--text3); }
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div class="topbar-brand">
+      <div class="logo">🤖</div>
+      <div class="brand-name">Aratt.ai <span>Blaster</span></div>
+    </div>
+    <div class="topbar-meta">
+      <div class="badge"><div class="dot"></div>Live</div>
+      <div class="badge" id="selBadge">0 selected</div>
+      <div class="badge" style="color:var(--text3);font-size:10px" id="initTime"></div>
+    </div>
+  </header>
+
+  <!-- LEFT: CONTACTS -->
+  <aside class="left-panel">
+    <div class="panel-header">
+      <span class="panel-title">Recipient Numbers</span>
+      <span class="count-chip" id="totalCount">0 selected</span>
+    </div>
+
+    <div class="search-wrap">
+      <input class="search-box" id="searchBox" type="text" placeholder="Search name or username…">
+    </div>
+
+    <div class="bulk-bar">
+      <button class="btn-sm" onclick="selectAll()">All</button>
+      <button class="btn-sm" onclick="selectNone()">None</button>
+      <button class="btn-sm" onclick="selectPending()">Pending</button>
+      <button class="btn-sm danger" onclick="clearSent()">Clear Sent</button>
+    </div>
+
+    <div class="contact-list" id="contactList"></div>
+
+    <div class="add-contact-wrap">
+      <div class="add-row">
+        <input class="inp" id="newName" placeholder="Display name (optional)">
+        <input class="inp" id="newHandle" placeholder="@username" style="flex:1.4">
+        <button class="btn-add" onclick="addContact()">+ Add</button>
+      </div>
+      <div style="margin-top:6px;display:flex;gap:6px;">
+        <textarea class="inp" id="bulkInput" placeholder="Bulk paste: one @username per line (or name,@username)" rows="2" style="flex:1;font-size:11px;resize:none;"></textarea>
+        <button class="btn-add" onclick="bulkAdd()" style="align-self:flex-end">Import</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- RIGHT: COMPOSE + LOG -->
+  <main class="right-panel">
+
+    <!-- your arattai username -->
+    <div class="username-section">
+      <span class="username-label">Your Aratt.ai Username</span>
+      <input class="username-inp" id="senderHandle" placeholder="@yourhandle" value="">
+      <span class="username-hint">Used to construct message URLs</span>
+    </div>
+
+    <!-- compose -->
+    <div class="compose-section">
+      <div class="compose-label">
+        Message Template <span style="color:var(--text3);font-size:10px">Editable</span>
+        <span class="char-counter" id="charCounter">0 chars</span>
+      </div>
+      <textarea class="msg-textarea" id="msgBody" oninput="updateCharCount()" placeholder="Type your message here…&#10;&#10;Supports {{name}} placeholder — replaced with recipient display name."></textarea>
+      <div class="compose-actions">
+        <button class="btn-primary" id="sendBtn" onclick="startBlast()" disabled>
+          ⚡ Send Blast
+        </button>
+        <button class="btn-secondary" onclick="resetAll()">↺ Reset</button>
+        <button class="btn-secondary" onclick="exportLog()">↓ Export Log</button>
+        <div class="send-info" id="sendInfo">Select recipients to begin</div>
+      </div>
+    </div>
+
+    <!-- progress -->
+    <div class="progress-wrap">
+      <div class="progress-label">
+        <span id="progressLabel">Ready</span>
+        <span id="progressPct">0%</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+    </div>
+
+    <!-- stats -->
+    <div class="stats-row">
+      <div class="stat-cell"><div class="stat-val green" id="statSent">0</div><div class="stat-lbl">Sent</div></div>
+      <div class="stat-cell"><div class="stat-val red" id="statFailed">0</div><div class="stat-lbl">Failed</div></div>
+      <div class="stat-cell"><div class="stat-val yellow" id="statPending">0</div><div class="stat-lbl">Pending</div></div>
+      <div class="stat-cell"><div class="stat-val blue" id="statTotal">0</div><div class="stat-lbl">Total</div></div>
+    </div>
+
+    <!-- log -->
+    <div class="log-section">
+      <div class="log-header">
+        <div class="log-title"><div class="log-dot"></div>Activity Log</div>
+        <button class="btn-sm" onclick="clearLog()">Clear</button>
+      </div>
+      <div class="log-body" id="logBody"></div>
+    </div>
+
+    <!-- how it works -->
+    <div class="how-section">
+      <div>
+        <div class="how-title">How It Works</div>
+        <div class="how-steps">
+          <div class="how-step"><span>1.</span><span>Select one or more numbers</span></div>
+          <div class="how-step"><span>2.</span><span>Edit template if needed</span></div>
+          <div class="how-step"><span>3.</span><span>Click Send — Aratt.ai web opens</span></div>
+          <div class="how-step"><span>4.</span><span>Message is pre-filled, confirm send</span></div>
+          <div class="how-step"><span>5.</span><span>Return here, progress auto-updates</span></div>
+        </div>
+        <div class="how-note">⚡ Uses same Aratt.ai window each time</div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+// ── DATA ──
+const DEFAULT_MSG = `Hey {{name}} 👋
+
+Checked out your profile on Aratt.ai — really impressive work!
+
+Would love to connect and explore collaboration. 🪄`;
+
+let contacts = JSON.parse(localStorage.getItem('arattai_contacts') || '[]');
+let log = [];
+let blasting = false;
+let arWin = null;
+let sendQueue = [];
+
+// ── RENDER ──
+function initials(name) {
+  if (!name) return '?';
+  const clean = name.replace(/^@/, '');
+  return clean.trim().split(/[\s_]/).map(w => w[0]).join('').toUpperCase().slice(0,2) || '?';
+}
+
+function renderAll() {
+  const q = document.getElementById('searchBox').value.toLowerCase();
+  const list = document.getElementById('contactList');
+  list.innerHTML = '';
+
+  const filtered = contacts.filter(c =>
+    (c.name || '').toLowerCase().includes(q) ||
+    c.handle.toLowerCase().includes(q)
+  );
+
+  if (!filtered.length) {
+    list.innerHTML = '<div style="padding:20px;text-align:center;color:var(--text3);font-size:11px">No contacts found</div>';
+    return;
+  }
+
+  filtered.forEach((c) => {
+    const idx = contacts.indexOf(c);
+    const el = document.createElement('div');
+    el.className = 'contact-item' +
+      (c.selected ? ' selected' : '') +
+      (c.status === 'sent' ? ' sent' : '') +
+      (c.status === 'failed' ? ' failed' : '');
+    el.innerHTML = `
+      <div class="cb"></div>
+      <div class="avatar">${initials(c.name || c.handle)}</div>
+      <div class="contact-info">
+        <div class="contact-name">${c.name || c.handle}</div>
+        <div class="contact-num">${c.name ? c.handle : ''}</div>
+      </div>
+      <div class="status-icon">${statusIcon(c.status)}</div>
+    `;
+    el.onclick = () => toggleContact(idx);
+    list.appendChild(el);
+  });
+}
+
+function statusIcon(s) {
+  if (s === 'sent') return '✅';
+  if (s === 'failed') return '❌';
+  if (s === 'sending') return '⏳';
+  return '';
+}
+
+function updateStats() {
+  const sent = contacts.filter(c => c.status === 'sent').length;
+  const failed = contacts.filter(c => c.status === 'failed').length;
+  const pending = contacts.filter(c => !c.status || c.status === 'pending').length;
+  const sel = contacts.filter(c => c.selected).length;
+
+  document.getElementById('statSent').textContent = sent;
+  document.getElementById('statFailed').textContent = failed;
+  document.getElementById('statPending').textContent = pending;
+  document.getElementById('statTotal').textContent = contacts.length;
+  document.getElementById('totalCount').textContent = sel + ' selected';
+  document.getElementById('selBadge').textContent = sel + ' selected';
+
+  const sendBtn = document.getElementById('sendBtn');
+  sendBtn.disabled = sel === 0 || blasting;
+  document.getElementById('sendInfo').textContent =
+    sel ? `${sel} recipient${sel>1?'s':''} queued` : 'Select recipients to begin';
+}
+
+function save() {
+  localStorage.setItem('arattai_contacts', JSON.stringify(contacts));
+}
+
+// ── CONTACTS ──
+function toggleContact(idx) {
+  contacts[idx].selected = !contacts[idx].selected;
+  save(); renderAll(); updateStats();
+}
+
+function selectAll() {
+  contacts.forEach(c => c.selected = true);
+  save(); renderAll(); updateStats();
+}
+
+function selectNone() {
+  contacts.forEach(c => c.selected = false);
+  save(); renderAll(); updateStats();
+}
+
+function selectPending() {
+  contacts.forEach(c => c.selected = (!c.status || c.status === 'pending'));
+  save(); renderAll(); updateStats();
+}
+
+function clearSent() {
+  contacts = contacts.filter(c => c.status !== 'sent');
+  save(); renderAll(); updateStats();
+  addLog('info', 'Cleared sent contacts');
+}
+
+function addContact() {
+  const name = document.getElementById('newName').value.trim();
+  const raw = document.getElementById('newHandle').value.trim();
+  if (!raw) return;
+  const handle = sanitizeHandle(raw);
+  if (!handle) { addLog('err', 'Invalid handle: ' + raw); return; }
+  if (contacts.find(c => c.handle === handle)) { addLog('warn', 'Duplicate: ' + handle); return; }
+  contacts.push({ name, handle, selected: true, status: null });
+  document.getElementById('newName').value = '';
+  document.getElementById('newHandle').value = '';
+  save(); renderAll(); updateStats();
+  addLog('ok', `Added ${name || handle}`);
+}
+
+function bulkAdd() {
+  const raw = document.getElementById('bulkInput').value.trim();
+  if (!raw) return;
+  const lines = raw.split('\n').map(l => l.trim()).filter(Boolean);
+  let added = 0, skipped = 0;
+  lines.forEach(line => {
+    let name = '', handle = '';
+    if (line.includes(',')) {
+      [name, handle] = line.split(',').map(s => s.trim());
+    } else {
+      handle = line;
+    }
+    handle = sanitizeHandle(handle);
+    if (!handle) { skipped++; return; }
+    if (contacts.find(c => c.handle === handle)) { skipped++; return; }
+    contacts.push({ name, handle, selected: true, status: null });
+    added++;
+  });
+  document.getElementById('bulkInput').value = '';
+  save(); renderAll(); updateStats();
+  addLog('ok', `Bulk import: +${added} added, ${skipped} skipped`);
+}
+
+function sanitizeHandle(raw) {
+  let h = raw.trim().replace(/^@/, '');
+  return /^[a-zA-Z0-9_.-]{1,50}$/.test(h) ? '@' + h : '';
+}
+
+// ── MESSAGE ──
+function updateCharCount() {
+  const len = document.getElementById('msgBody').value.length;
+  const el = document.getElementById('charCounter');
+  el.textContent = len + ' chars';
+  el.className = 'char-counter' + (len > 4096 ? ' over' : len > 3000 ? ' warn' : '');
+}
+
+// ── BLAST ──
+async function startBlast() {
+  if (blasting) return;
+  sendQueue = contacts.filter(c => c.selected && c.status !== 'sent');
+  if (!sendQueue.length) { addLog('warn', 'No pending selected contacts'); return; }
+
+  const sender = document.getElementById('senderHandle').value.trim().replace(/^@/, '');
+  if (!sender) {
+    addLog('err', 'Please enter your Aratt.ai username above');
+    document.getElementById('senderHandle').focus();
+    return;
+  }
+
+  blasting = true;
+  document.getElementById('sendBtn').disabled = true;
+  addLog('info', `Starting blast — ${sendQueue.length} messages`);
+  updateProgress(0, sendQueue.length);
+
+  for (let i = 0; i < sendQueue.length; i++) {
+    const c = sendQueue[i];
+    const idx = contacts.indexOf(c);
+    contacts[idx].status = 'sending';
+    renderAll();
+    addLog('info', `[${i+1}/${sendQueue.length}] Opening Aratt.ai for ${c.name || c.handle}…`);
+    updateProgress(i, sendQueue.length);
+
+    const msg = buildMsg(c);
+    const recipientHandle = c.handle.replace(/^@/, '');
+    const url = buildArattaiUrl(sender, recipientHandle, msg);
+
+    if (!arWin || arWin.closed) {
+      arWin = window.open(url, 'arattai_blast_window');
+    } else {
+      arWin.location.href = url;
+    }
+
+    if (!arWin) {
+      contacts[idx].status = 'failed';
+      addLog('err', `Popup blocked for ${c.name || c.handle}`);
+      save(); renderAll(); updateStats();
+      continue;
+    }
+
+    await waitForUserConfirm(c.name || c.handle, i + 1, sendQueue.length);
+
+    contacts[idx].status = 'sent';
+    save(); renderAll();
+    addLog('ok', `✅ Sent to ${c.name || c.handle}`);
+    updateProgress(i + 1, sendQueue.length);
+    updateStats();
+  }
+
+  blasting = false;
+  document.getElementById('sendBtn').disabled = false;
+  addLog('ok', `🎉 Blast complete — ${sendQueue.length} messages processed`);
+  updateProgress(sendQueue.length, sendQueue.length, true);
+}
+
+function buildMsg(c) {
+  const tmpl = document.getElementById('msgBody').value;
+  return tmpl.replace(/{{name}}/gi, c.name || c.handle);
+}
+
+function buildArattaiUrl(sender, recipient, msg) {
+  // Aratt.ai DM URL format
+  return `https://aratt.ai/message/${recipient}?from=${encodeURIComponent(sender)}&text=${encodeURIComponent(msg)}`;
+}
+
+function waitForUserConfirm(label, curr, total) {
+  return new Promise(resolve => {
+    const delay = 2500;
+    setTimeout(() => {
+      addLog('info', `Auto-advancing after ${delay/1000}s… (${curr}/${total})`);
+      resolve();
+    }, delay);
+  });
+}
+
+function updateProgress(done, total, complete) {
+  const pct = total ? Math.round((done / total) * 100) : 0;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressPct').textContent = pct + '%';
+  document.getElementById('progressLabel').textContent =
+    complete ? '✅ Complete' : done === 0 ? 'Ready' : `Sending ${done} / ${total}`;
+}
+
+// ── LOG ──
+function ts() {
+  return new Date().toLocaleTimeString('en-GB', {hour:'2-digit',minute:'2-digit',second:'2-digit'});
+}
+
+function addLog(type, msg) {
+  const entry = { type, msg, time: ts() };
+  log.push(entry);
+  const div = document.createElement('div');
+  div.className = 'log-entry';
+  div.innerHTML = `<span class="log-ts">[${entry.time}]</span> <span class="log-${type}">${msg}</span>`;
+  const body = document.getElementById('logBody');
+  body.appendChild(div);
+  body.scrollTop = body.scrollHeight;
+}
+
+function clearLog() {
+  log = [];
+  document.getElementById('logBody').innerHTML = '';
+}
+
+function exportLog() {
+  const text = log.map(e => `[${e.time}] [${e.type.toUpperCase()}] ${e.msg}`).join('\n');
+  const blob = new Blob([text], {type:'text/plain'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `arattai-blast-log-${Date.now()}.txt`;
+  a.click();
+}
+
+// ── RESET ──
+function resetAll() {
+  if (!confirm('Reset all statuses?')) return;
+  contacts.forEach(c => { c.status = null; c.selected = false; });
+  blasting = false;
+  arWin = null;
+  updateProgress(0, 0);
+  save(); renderAll(); updateStats();
+  addLog('warn', 'Reset all statuses');
+}
+
+// ── SEARCH ──
+document.getElementById('searchBox').addEventListener('input', renderAll);
+
+// ── INIT ──
+document.getElementById('msgBody').value = DEFAULT_MSG;
+updateCharCount();
+renderAll();
+updateStats();
+document.getElementById('initTime').textContent = '[' + ts() + ']';
+</script>
+</body>
+</html>
