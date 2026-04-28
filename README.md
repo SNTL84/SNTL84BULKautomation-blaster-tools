@@ -1,94 +1,117 @@
-# 🚀 SNTL84 BULK Automation Blaster Tools ⚡
+# ⚡ SNTL84 BULK Automation Blaster Tools
 
-> **WhatsApp & Aratt.ai Bulk Outreach Automation Tools**  
-> Built by **Milan SNTL 84** — AI Workflow Professional, Surat, India
+> **WhatsApp & Aratt.ai Bulk Outreach Automation** — Browser-based, zero backend, instant deployment | Built by Milan @ SNTL 84
 
-[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![HTML](https://img.shields.io/badge/Built%20With-HTML%2FJS-orange.svg)]()
-[![Status](https://img.shields.io/badge/Status-Active-brightgreen.svg)]()
+[![WA Demo](https://img.shields.io/badge/💬%20WA%20Blaster-Live%20Demo-25D366?style=for-the-badge)](https://sntl84.github.io/SNTL84BULKautomation-blaster-tools/SNTL84-_whatsapp-blaster.html)
+[![Arattai Demo](https://img.shields.io/badge/🤖%20Arattai%20Blaster-Live%20Demo-6C63FF?style=for-the-badge)](https://sntl84.github.io/SNTL84BULKautomation-blaster-tools/SNTL84__arattai-blaster.html)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0077B5?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/sntl2784)
+[![WhatsApp](https://img.shields.io/badge/WhatsApp-Hire%20Me-25D366?style=for-the-badge&logo=whatsapp)](https://wa.me/919727413309)
+[![Website](https://img.shields.io/badge/Website-desidevloper.com-FF6B35?style=for-the-badge)](https://desidevloper.com)
 
 ---
 
-## 📌 Project Overview
+## 🎯 What Is This?
 
-This repository contains two powerful browser-based bulk outreach automation tools designed for founders, sales teams, and AI workflow professionals who want to reach clients fast — without expensive CRMs.
+Two powerful **bulk outreach automation tools** — fully browser-based, no server, no API keys:
 
-| Tool | Platform | File |
-|------|----------|------|
-| WA Blaster | WhatsApp Web | `SNTL84-_whatsapp-blaster.html` |
-| Aratt.ai Blaster | Aratt.ai Web | `SNTL84__arattai-blaster.html` |
+| Tool | Platform | Use Case |
+|------|----------|----------|
+| 💬 **WA Blaster** | WhatsApp Web | Bulk WhatsApp outreach |
+| 🤖 **Arattai Blaster** | Aratt.ai | Bulk Aratt.ai DM outreach |
 
 ---
 
 ## ✨ Features
 
-- **Bulk Number Import** — Paste numbers in any format (with/without +91, 0 prefix, spaces)
-- **Live Preview** — Instantly validate & preview numbers before sending
-- **Campaign Progress Tracker** — Visual progress bar with sent/pending stats
-- **Message Template Editor** — Edit your outreach message on-the-fly
-- **Activity Log** — Real-time log of all send actions
-- **One-Click Send** — Opens WhatsApp/Aratt.ai with pre-filled message
-- **Bulk Send with Queue** — Sequential dispatch with confirmation prompt
-- **Duplicate Detection** — Automatically filters duplicates
-- **No Backend Required** — Runs 100% in your browser, zero server
+- ✅ Add contacts manually or bulk import (CSV-style)
+- ✅ `{{name}}` placeholder for personalized messages
+- ✅ Live activity log with timestamps
+- ✅ Sent / Failed / Pending stats dashboard
+- ✅ Progress bar with % completion
+- ✅ Export log as `.txt`
+- ✅ LocalStorage persistence (contacts saved between sessions)
+- ✅ Single reusable browser window (no popup spam)
+- ✅ Search & filter contacts
+- ✅ Select All / Pending / None controls
+- ✅ Reset & Clear Sent functions
+- ✅ Zero backend — 100% HTML/CSS/JS
 
 ---
 
-## 🛠️ How To Use
+## 🚀 Quick Start
 
-1. Download either HTML file
-2. Open it in your browser (Chrome recommended)
-3. Add/Import phone numbers
-4. Edit your message template
-5. Select numbers and click **Send Bulk**
-6. WhatsApp Web / Aratt.ai opens with the message pre-filled
-7. Confirm send and move to next contact
+**Option 1 — Live Demo (no install):**
+- [💬 WhatsApp Blaster →](https://sntl84.github.io/SNTL84BULKautomation-blaster-tools/SNTL84-_whatsapp-blaster.html)
+- [🤖 Arattai Blaster →](https://sntl84.github.io/SNTL84BULKautomation-blaster-tools/SNTL84__arattai-blaster.html)
+
+**Option 2 — Download & Run Locally:**
+```bash
+git clone https://github.com/SNTL84/SNTL84BULKautomation-blaster-tools.git
+# Open either HTML file in your browser
+open SNTL84-_whatsapp-blaster.html
+open SNTL84__arattai-blaster.html
+```
+
+**Option 3 — Direct Download:**
+- [Download WA Blaster](https://raw.githubusercontent.com/SNTL84/SNTL84BULKautomation-blaster-tools/main/SNTL84-_whatsapp-blaster.html)
+- [Download Arattai Blaster](https://raw.githubusercontent.com/SNTL84/SNTL84BULKautomation-blaster-tools/main/SNTL84__arattai-blaster.html)
 
 ---
 
-## 📸 Screenshots
+## 📖 How It Works
 
-> *(Screenshots coming soon — demo GIF in progress)*
+1. Add contact names + numbers/handles (manual or bulk paste)
+2. Edit your message template (supports `{{name}}` personalization)
+3. Select recipients and click **⚡ Send Blast**
+4. Tool opens WhatsApp Web / Aratt.ai with message pre-filled
+5. Confirm send, return — progress auto-updates
+6. Track sent/failed in real-time dashboard
 
 ---
 
-## 🔗 Contact & Connect
+## 🏗️ File Structure
 
-| Platform | Link |
-|----------|------|
+```
+SNTL84BULKautomation-blaster-tools/
+├── SNTL84-_whatsapp-blaster.html    # WhatsApp bulk outreach tool
+├── SNTL84__arattai-blaster.html     # Aratt.ai bulk outreach tool
+├── README.md                         # This file
+├── CONTRIBUTING.md                   # Contribution guide
+└── LICENSE                           # MIT License
+```
+
+---
+
+## 🤝 Contributing
+
+See **[CONTRIBUTING.md](./CONTRIBUTING.md)** for ideas, setup steps, and PR guidelines.
+
+---
+
+## 📞 Connect & Collaborate
+
+| Channel | Link |
+|---------|------|
 | 🌐 Website | [desidevloper.com](https://desidevloper.com) |
-| 💬 WhatsApp | [+91 97274 13309](https://wa.me/919727413309) |
 | 💼 LinkedIn | [linkedin.com/in/sntl2784](https://www.linkedin.com/in/sntl2784) |
-| 🐙 GitHub | [github.com/SNTL84](https://github.com/SNTL84) |
+| 💬 WhatsApp | [+91 97274 13309](https://wa.me/919727413309) |
+| 📧 Email | 3goldenlotusroots@gmail.com |
+| 🐙 GitHub | [@SNTL84](https://github.com/SNTL84) |
+| 🤖 Aratt.ai | [@desidevloper](https://aratt.ai/user/@desidevloper) |
 
 ---
 
-## 👨‍💻 Developer
+## ⭐ Support This Project
 
-**Milan SNTL 84**  
-AI Workflow Professional | Full-Stack Developer | Surat, India  
-*"Automate What's Costing You Money"*
+If this saves you hours of manual outreach, **please ⭐ star this repo** and share with your network!
 
 ---
 
 ## 📄 License
 
-This project is licensed under the [MIT License](LICENSE).
-
+MIT License — free to use, fork, and build upon.
 
 ---
 
-## 📅 Changelog
-
-### v1.1 - April 2026
-- Added Aratt.ai Blaster tool
-- Improved number validation logic
-- Enhanced progress tracking UI
-
-### v1.0 - April 2026
-- Initial release of WA Blaster tool
-- Bulk number import with live preview
-- Campaign progress tracker
-
-
-> **Pair Programming Note:** This project was built with collaboration from the SNTL84 team.
+*Built with ❤️ by **Milan · SNTL 84** · Surat, India 🇮🇳*  
+*"Automate What's Costing You Money"*
